@@ -97,37 +97,120 @@ def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
 if __name__ == "__main__":
     # Definisci qui tutti i registri che vuoi scaricare
     registri_da_scaricare = [
+        # Matrimonio Carlo
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37812479/582R4jW",
-            "output_folder": "registri_antenati/1940",
-            "pagine": 316
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825806/wkNmm4e",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1912",
+            "pagine": 76
         },
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813197/LqWjGAK",
-            "output_folder": "registri_antenati/1939",
-            "pagine": 362 # Sostituisci con il numero reale
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825791/LyJBpkq",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1911",
+            "pagine": 70
         },
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813181/wj6AZng",
-            "output_folder": "registri_antenati/1938",
-            "pagine": 410 # Sostituisci con il numero reale
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825776/wj6v26K",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1910",
+            "pagine": 60
         },
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813203/5vRWXJK",
-            "output_folder": "registri_antenati/1937",
-            "pagine": 386 # Sostituisci con il numero reale
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825761/wrMG11O",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1909",
+            "pagine": 59
         },
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813196/0Zk3WZe",
-            "output_folder": "registri_antenati/1936_1",
-            "pagine": 190 # Sostituisci con il numero reale
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825745/0A6zJl8",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1908",
+            "pagine": 64
         },
         {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813189/wbxPzdA",
-            "output_folder": "registri_antenati/1936_2",
-            "pagine": 92 # Sostituisci con il numero reale
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825730/w1ogr76",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1907",
+            "pagine": 76
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825715/5VAnxmP",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1906",
+            "pagine": 60
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825700/w1og2nD",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1905",
+            "pagine": 86
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825685/5VAnN9d",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1904",
+            "pagine": 66
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825669/wEdNbpX",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1903",
+            "pagine": 56
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825654/LNKMgY7",
+            "output_folder": "registri_antenati/Matrimonio_Carlo/1902",
+            "pagine": 70
+        },
+        # Morte Carlo
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827407/03aV9GY",
+            "output_folder": "registri_antenati/Morte_Carlo/1936",
+            "pagine": 68
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827398/LmZBEWM",
+            "output_folder": "registri_antenati/Morte_Carlo/1935",
+            "pagine": 82
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827379/wrMBQlO",
+            "output_folder": "registri_antenati/Morte_Carlo/1934",
+            "pagine": 82
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827365/0J7YW32",
+            "output_folder": "registri_antenati/Morte_Carlo/1933",
+            "pagine": 80
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827351/5xmB7jg",
+            "output_folder": "registri_antenati/Morte_Carlo/1932",
+            "pagine": 66
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827337/04Y3a2a",
+            "output_folder": "registri_antenati/Morte_Carlo/1931",
+            "pagine": 74
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827323/04Y3azQ",
+            "output_folder": "registri_antenati/Morte_Carlo/1930",
+            "pagine": 84
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827310/wbxOA6A",
+            "output_folder": "registri_antenati/Morte_Carlo/1929",
+            "pagine": 72
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827295/5dqBnRE",
+            "output_folder": "registri_antenati/Morte_Carlo/1928",
+            "pagine": 68
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827282/5VAOGJ1",
+            "output_folder": "registri_antenati/Morte_Carlo/1927",
+            "pagine": 70
+        },
+        {
+            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827268/wEdrE9d",
+            "output_folder": "registri_antenati/Morte_Carlo/1926",
+            "pagine": 82
         },
 
+        
         # Aggiungi un nuovo dizionario {...} per ogni link aggiuntivo
     ]
 
