@@ -2,39 +2,70 @@ import base64
 import time
 import os
 import shutil
+import re
+import glob
 import concurrent.futures
+import img2pdf
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as EC 
+
+def crea_pdf_da_immagini(cartella_input, nome_pdf, thread_id):
+    """Raccoglie le immagini scaricate e le unisce in un unico PDF usando img2pdf."""
+    print(f"[Thread {thread_id} | {cartella_input}] Avvio creazione PDF tramite img2pdf...")
+    
+    # Cerca tutte le immagini PNG nella cartella
+    percorso_ricerca = os.path.join(cartella_input, "documento_pagina_*.png")
+    file_immagini = glob.glob(percorso_ricerca)
+    
+    if not file_immagini:
+        print(f"[Thread {thread_id} | {cartella_input}] Nessuna immagine trovata per creare il PDF.")
+        return
+
+    # Ordina i file numericamente
+    try:
+        file_immagini.sort(key=lambda x: int(re.search(r'pagina_(\d+)', x).group(1)))
+    except Exception as e:
+        print(f"[Thread {thread_id}] Errore durante l'ordinamento dei file: {e}")
+        return
+
+    # Salva il file PDF
+    percorso_pdf = os.path.join(os.path.dirname(cartella_input), nome_pdf)
+    
+    try:
+        # img2pdf fa tutto il lavoro sporco in modo molto più efficiente
+        with open(percorso_pdf, "wb") as f:
+            f.write(img2pdf.convert(file_immagini))
+            
+        print(f"[Thread {thread_id} | {cartella_input}] PDF creato con successo: {nome_pdf}")
+        
+        # OPZIONALE: Scommenta le due righe sotto per eliminare le PNG dopo aver creato il PDF
+        # for file in file_immagini:
+        #     os.remove(file)
+            
+    except Exception as e:
+        print(f"[Thread {thread_id}] ERRORE CRITICO durante la creazione del PDF con img2pdf: {e}")
 
 def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
     """Funzione eseguita dal singolo thread per scaricare un registro."""
     
-    # 1. Crea la cartella per i salvataggi
     os.makedirs(output_folder, exist_ok=True)
 
-    # 2. Configura le opzioni di Chrome
     chrome_options = Options()
     chrome_options.add_argument("--disable-web-security")
     chrome_options.add_argument("--disable-site-isolation-trials")
+    # chrome_options.add_argument("--headless=new") # Esecuzione in background (consigliata)
     
-    # OPZIONALE: Scommenta la riga sotto per eseguire Chrome in background senza aprire le finestre a schermo.
-    # Molto utile quando si usano molti thread.
-    # chrome_options.add_argument("--headless=new")
-    
-    # IMPORTANTE: Crea una cartella del profilo univoca per questo thread
     temp_profile = rf"C:\temp-chrome-profile-thread-{thread_id}"
     chrome_options.add_argument(f"--user-data-dir={temp_profile}") 
 
-    # 3. Inizializza il browser per questo specifico thread
     driver = webdriver.Chrome(options=chrome_options)
 
     try:
         driver.get(url)
 
-        # Accetta i cookie (se presenti)
         try:
             cookie_btn = WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.ID, "cookie_action_close_header"))
@@ -53,10 +84,8 @@ def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
                 EC.presence_of_element_located((By.XPATH, canvas_xpath))
             )
             
-            # Attendiamo per la messa a fuoco
-            time.sleep(3) 
+            time.sleep(2) 
             
-            # Estrai i pixel dal canvas
             canvas_base64 = driver.execute_script(
                 "return arguments[0].toDataURL('image/png');", canvas
             )
@@ -67,7 +96,6 @@ def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
             with open(nome_file, "wb") as fh:
                 fh.write(base64.b64decode(base64_data))
             
-            # Trova e clicca 'Avanti'
             try:
                 pulsante_next = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, selettore_avanti))
@@ -78,13 +106,18 @@ def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
                 print(f"[Thread {thread_id} | {output_folder}] Pulsante 'Avanti' non trovato. Fine del registro.")
                 break
 
+        # A download finito, invoca la funzione per creare il PDF
+        # Il PDF prenderà il nome della cartella (es. "1939_Registro.pdf")
+        nome_cartella_finale = os.path.basename(os.path.normpath(output_folder))
+        nome_pdf = f"{nome_cartella_finale}_Registro.pdf"
+        crea_pdf_da_immagini(output_folder, nome_pdf, thread_id)
+
     except Exception as e:
         print(f"[Thread {thread_id} | {output_folder}] Si è verificato un errore: {e}")
     finally:
         print(f"[Thread {thread_id} | {output_folder}] Operazione conclusa. Chiusura driver.")
         driver.quit()
         
-        # Pulizia della cartella temporanea del profilo per non intasare l'hard disk
         try:
             if os.path.exists(temp_profile):
                 shutil.rmtree(temp_profile, ignore_errors=True)
