@@ -10,8 +10,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC 
+from selenium.webdriver.support import expected_conditions as EC
 
+import to_be_processed
 def crea_pdf_da_immagini(cartella_input, nome_pdf, thread_id):
     """Raccoglie le immagini scaricate e le unisce in un unico PDF usando img2pdf."""
     print(f"[Thread {thread_id} | {cartella_input}] Avvio creazione PDF tramite img2pdf...")
@@ -129,128 +130,27 @@ def scarica_registro(url, output_folder, numero_pagine_da_salvare, thread_id):
 # ==========================================
 if __name__ == "__main__":
     # Definisci qui tutti i registri che vuoi scaricare
-    registri_da_scaricare = [
-        # Matrimonio Carlo
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825806/wkNmm4e",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1912",
-            "pagine": 76
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825791/LyJBpkq",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1911",
-            "pagine": 70
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825776/wj6v26K",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1910",
-            "pagine": 60
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825761/wrMG11O",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1909",
-            "pagine": 59
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825745/0A6zJl8",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1908",
-            "pagine": 64
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825730/w1ogr76",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1907",
-            "pagine": 76
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825715/5VAnxmP",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1906",
-            "pagine": 60
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825700/w1og2nD",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1905",
-            "pagine": 86
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825685/5VAnN9d",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1904",
-            "pagine": 66
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825669/wEdNbpX",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1903",
-            "pagine": 56
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37825654/LNKMgY7",
-            "output_folder": "registri_antenati/Matrimonio_Carlo/1902",
-            "pagine": 70
-        },
-        # Morte Carlo
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827407/03aV9GY",
-            "output_folder": "registri_antenati/Morte_Carlo/1936",
-            "pagine": 68
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827398/LmZBEWM",
-            "output_folder": "registri_antenati/Morte_Carlo/1935",
-            "pagine": 82
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827379/wrMBQlO",
-            "output_folder": "registri_antenati/Morte_Carlo/1934",
-            "pagine": 82
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827365/0J7YW32",
-            "output_folder": "registri_antenati/Morte_Carlo/1933",
-            "pagine": 80
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827351/5xmB7jg",
-            "output_folder": "registri_antenati/Morte_Carlo/1932",
-            "pagine": 66
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827337/04Y3a2a",
-            "output_folder": "registri_antenati/Morte_Carlo/1931",
-            "pagine": 74
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827323/04Y3azQ",
-            "output_folder": "registri_antenati/Morte_Carlo/1930",
-            "pagine": 84
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827310/wbxOA6A",
-            "output_folder": "registri_antenati/Morte_Carlo/1929",
-            "pagine": 72
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827295/5dqBnRE",
-            "output_folder": "registri_antenati/Morte_Carlo/1928",
-            "pagine": 68
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827282/5VAOGJ1",
-            "output_folder": "registri_antenati/Morte_Carlo/1927",
-            "pagine": 70
-        },
-        {
-            "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37827268/wEdrE9d",
-            "output_folder": "registri_antenati/Morte_Carlo/1926",
-            "pagine": 82
-        },
+    #   Esempio di struttura per ogni registro:
+    # {
+    #   "url": "https://antenati.cultura.gov.it/ark:/12657/an_ua37813016/wbxPPJ4",
+    #   "output_folder": "registri_antenati/Morti_Cuneo/1904",
+    #   "pagine": 384
+    # },
+    
 
-        
-        # Aggiungi un nuovo dizionario {...} per ogni link aggiuntivo
-    ]
+    
+    ### INSERIRE QUI I REGISTRI CHE VUOI SCARICARE ###
+    #                                                #
+    registri_da_scaricare = to_be_processed.Morti_cuneo
+    #                                                #
+    ###--------------------------------------------###
+
+
 
     # Quanti browser vuoi aprire in contemporanea?
     # ATTENZIONE: Non esagerare con i thread simultanei. Troppe richieste in parallelo
     # saturano la RAM/CPU e possono causare il blocco del tuo IP da parte del server remoto.
-    MAX_THREADS = 5
+    MAX_THREADS = 7
 
     print(f"Avvio del sistema con {MAX_THREADS} worker simultanei...")
     
